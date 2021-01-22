@@ -21,15 +21,15 @@ KBUILD_DEPENDS += "lzop:native"
 
 SRCBRANCH = "srg52_dev"
 
-SRCREV = "344b98d854dfa49803a36c6a1aa2d8a7c44798ca"
-KERNEL_REV = "344b98d854dfa49803a36c6a1aa2d8a7c44798ca"
+SRCREV = "81f500c22eba467b8edcf2443ebf0cccd6bcdb66"
+KERNEL_REV = "81f500c22eba467b8edcf2443ebf0cccd6bcdb66"
 KERNEL_DEFCONFIG = "srg52_defconfig"
 
-SRC_URI += "https://github.com/aaeon-kunyi/am335x-kernel/archive/v1.0_beta06.tar.gz"
+SRC_URI += "https://github.com/dqdqdq31/am335x-kernel/archive/v1.1.tar.gz"
+# SRC_URI += "file://v1.1.tar.gz"
 SRC_URI += "file://srg52_defconfig"
 
-SRC_URI[md5sum] = "a280cff2e509bcea3bd0835c43e7444d"
-SRC_URI[sha256sum] = "4da8cb73f2e4add15a361feb485db6133c824b18bfe0990c6abaa40c13bc1936"
+SRC_URI[md5sum] = "83618cbc1567cbae3dedb8391fc908fe"
+SRC_URI[sha256sum] = "75e2e322fe8b3abb617f4daf72fbf3b8a4b0f407c65c83f4cb28fe62a8ed25b5"
 
-
-S = "${WORKDIR}/am335x-kernel-1.0_beta06"
+S = "${WORKDIR}/am335x-kernel-1.1"
