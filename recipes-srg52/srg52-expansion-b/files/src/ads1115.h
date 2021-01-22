@@ -55,5 +55,9 @@ int openI2CBus(char *bus);
 void closeI2CBus(void);
 int setI2CSlave(unsigned char deviceAddr);
 float readVoltage(int channel);
+float readVoltageDiff(int diffset);
+float readCurrent(int channel);
+float readCurrentDiff(int diffset);
+
 
 #endif
