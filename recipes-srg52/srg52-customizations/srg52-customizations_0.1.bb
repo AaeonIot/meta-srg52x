@@ -114,6 +114,9 @@ do_install() {
 
 	install -m 644 ${WORKDIR}/srg52-init.service ${D}/lib/systemd/system
 	install -m 755 ${WORKDIR}/generic-startup.sh ${D}/etc/srg52
+	
+	# ppp script generator for BG96
+	install -v -m 755 ${WORKDIR}/scripts/tools/ppp-creator.sh	${D}/opt/scripts/tools		
 }
 
 addtask do_install after do_transform_template
