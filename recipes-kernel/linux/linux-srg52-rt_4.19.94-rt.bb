@@ -25,7 +25,7 @@ SRCREV = "81f500c22eba467b8edcf2443ebf0cccd6bcdb66"
 KERNEL_REV = "81f500c22eba467b8edcf2443ebf0cccd6bcdb66"
 KERNEL_DEFCONFIG = "srg52_defconfig"
 
-SRC_URI += "https://github.com/dqdqdq31/am335x-kernel/archive/v1.1.tar.gz"
+SRC_URI += "https://github.com/AaeonIot/am335x-kernel/archive/v1.1.tar.gz"
 # SRC_URI += "file://v1.1.tar.gz"
 SRC_URI += "file://srg52_defconfig"
 
