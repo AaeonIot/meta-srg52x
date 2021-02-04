@@ -132,5 +132,5 @@ local_conf_header:
     IMAGE_TYPE = "wic-targz-img"
 
   os_image_version: |
-    IMG_VARIANT_VERSION = "1.2"
+    IMG_VARIANT_VERSION = "1.3"
 
