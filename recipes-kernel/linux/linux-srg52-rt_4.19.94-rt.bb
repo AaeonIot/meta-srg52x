@@ -10,7 +10,7 @@
 #
 # for real-time
 # Linux RT Kernel 4.19.94
-#
+# 
 require recipes-kernel/linux/linux-custom.inc
 
 DESCRIPTION = "Linux Kernel for SRG-3352x"
