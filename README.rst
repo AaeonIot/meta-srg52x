@@ -33,7 +33,7 @@ currently use Ubuntu 18.04/20.04 -- x86_64(amd64).
 3. build test image ::
 
     # clone this repository
-    git clone https://github.com/aaeon-kunyi/meta-srg52x.git
+    git clone https://github.com/AaeonIot/meta-srg52x.git
     cd meta-srg52x
     # build image
     ./build_srg52.sh
