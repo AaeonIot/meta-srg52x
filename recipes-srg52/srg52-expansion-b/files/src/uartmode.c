@@ -25,10 +25,10 @@ const char fileConf[] = "uartmode.toml";
 	((controller*32)+index)
 
 /* ------------------------------------
- * /dev/ttyMU0, gpio2_6, gpio2_7
+ * /dev/ttyMU0, gpio2_7, gpio2_6
  * /dev/ttyMU1, gpio2_10, gpio2_11
  * ====================================
- *  MODE    	gpio2_6,	gpio2_7
+ *  MODE    	gpio2_7,	gpio2_6
  * 		gpio2_10,	gpio2_11
  *  RS232	   1		   0
  *  RS485-HALF	   0		   1
@@ -65,7 +65,7 @@ static struct CONF_UART conf = { .portnums = 0, .mode = { 0 } };
 
 
 static int portGpios[MAX_SUPPORT_PORTS][2] = {
-	{ gpioNum(2, 6), gpioNum(2, 7)},
+	{ gpioNum(2, 7), gpioNum(2, 6)},
 	{ gpioNum(2, 10), gpioNum(2, 11)},
 };
 
