@@ -55,9 +55,9 @@ static void usage(void) {
 	fprintf(stderr, "\t                                 1 for current\n");
 	fprintf(stderr, "\t                                 -1 for ignore\n");
 	fprintf(stderr, "Example:\n");
-	fprintf(stderr, "\trd_exadc -c 0 -m 0, read channel 0&1 diff in voltage\n");
-	fprintf(stderr, "\trd_exadc -c 1 -m 1, read channel 2&3 diff in current\n");
-	fprintf(stderr, "\trd_exadc -a 0 -1, represent channel diff-set in voltage, ignore, read channel 0&1 diff only\n");
+	fprintf(stderr, "\trd_exbadc -c 0 -m 0, read channel 0&1 diff in voltage\n");
+	fprintf(stderr, "\trd_exbadc -c 1 -m 1, read channel 2&3 diff in current\n");
+	fprintf(stderr, "\trd_exbadc -a 0 -1, represent channel diff-set in voltage, ignore, read channel 0&1 diff only\n");
 	fprintf(stderr, "\n");
 }
 
@@ -140,6 +140,12 @@ int main(int argc, char **argv)
 	struct gpiod_chip *chip2;
 	struct gpiod_line *line[4];
 
+	cmd_opt = preprocess_cmd_option(argc, argv);
+	if (cmd_opt != 0) {
+		usage();
+		exit(0);
+	}
+
 	if(openI2CBus(i2cbus) == -1)
 	{
 		return EXIT_FAILURE;
@@ -152,7 +158,6 @@ int main(int argc, char **argv)
 		ret = EXIT_FAILURE;
 		goto end;
 	}
-
 	chip2 = gpiod_chip_open_by_name(gpio2);
 	if (!chip2) {
 		perror("Open gpiochip2 failed\n");
@@ -179,7 +184,6 @@ int main(int argc, char **argv)
 			perror("request line as output failed.\n");
 			goto release_lines;
 		}
-		
 		ret = gpiod_line_set_value(line[i], mode);
 		if (ret < 0) {
 			perror("set line output failed.\n");
@@ -200,8 +204,8 @@ release_lines:
 	for (i = 0; i < ADC_SET_PIN_MAX; i++)
 		gpiod_line_release(line[i]);
 close_chip:
-	gpiod_chip_close(chip2);
 	gpiod_chip_close(chip0);
+	gpiod_chip_close(chip2);
 end:
 	closeI2CBus();
 	return ret;
