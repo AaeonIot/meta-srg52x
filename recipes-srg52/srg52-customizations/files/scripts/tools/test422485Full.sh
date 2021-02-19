@@ -1,6 +1,6 @@
 echo "set ttyMU0 and ttyMU1 as RS485 full duplex / RS422 and set baud rate as 115200"
-sudo ./uartmode -p 0 -m 2
-sudo ./uartmode -p 1 -m 2
+sudo uartmode -p 0 -m 2
+sudo uartmode -p 1 -m 2
 stty -F /dev/ttyMU0 115200 raw            #CONFIGURE SERIAL PORT
 stty -F /dev/ttyMU1 115200 raw            #CONFIGURE SERIAL PORT
 
