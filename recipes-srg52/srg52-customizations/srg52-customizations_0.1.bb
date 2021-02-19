@@ -116,7 +116,12 @@ do_install() {
 	install -m 755 ${WORKDIR}/generic-startup.sh ${D}/etc/srg52
 	
 	# ppp script generator for BG96
-	install -v -m 755 ${WORKDIR}/scripts/tools/ppp-creator.sh	${D}/opt/scripts/tools		
+	install -v -m 755 ${WORKDIR}/scripts/tools/ppp-creator.sh	${D}/opt/scripts/tools
+	
+	# uartmode test
+	install -v -m 755 ${WORKDIR}/scripts/tools/test232.sh	${D}/opt/scripts/tools
+	install -v -m 755 ${WORKDIR}/scripts/tools/test485Half.sh	${D}/opt/scripts/tools
+	install -v -m 755 ${WORKDIR}/scripts/tools/test422485Full.sh	${D}/opt/scripts/tools
 }
 
 addtask do_install after do_transform_template

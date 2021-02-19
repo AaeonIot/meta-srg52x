@@ -8,7 +8,9 @@
 #include <toml.h>
 #include <getopt.h>
 
-#define VERSION "1.0.0"
+#define x_ENABLE_LOOPBACK
+
+#define VERSION "1.1.0"
 
 #define DEFAULT_PORT	(-1)
 #define DEFAULT_MODE	(-1)
@@ -25,14 +27,23 @@ const char fileConf[] = "uartmode.toml";
 	((controller*32)+index)
 
 /* ------------------------------------
- * /dev/ttyMU0, gpio2_7, gpio2_6
+ * /dev/ttyMU0, gpio2_6, gpio2_7
  * /dev/ttyMU1, gpio2_10, gpio2_11
  * ====================================
- *  MODE    	gpio2_7,	gpio2_6
- * 		gpio2_10,	gpio2_11
+ *  SP339 MODE	   0		   1
  *  RS232	   1		   0
  *  RS485-HALF	   0		   1
  *  RS485-FULL	   1		   1
+ *  LOOPBACK	   0		   0
+ * ------------------------------------
+ *  gpio pin reversed mapping to sp339 mode pin
+ * ------------------------------------
+ *  MODE    	gpio2_6,	gpio2_7
+ * 		gpio2_10,	gpio2_11
+ *  RS232	   0		   1
+ *  RS485-HALF	   1		   0
+ *  RS485-FULL	   0		   0
+ *  LOOPBACK	   1		   1
  * ------------------------------------
  */
 
@@ -40,7 +51,12 @@ enum SERIAL_MODE {
 	MODE_RS232 = 0,
 	MODE_RS485_HALF = 1,
 	MODE_RS485_FULL = 2,
+	MODE_LOOPBACK = 3,
+	#ifdef _ENABLE_LOOPBACK
+	MODE_MAX_SUPPORT = MODE_LOOPBACK,	
+	#else
 	MODE_MAX_SUPPORT = MODE_RS485_FULL,
+	#endif
 };
 
 struct CONF_UART {
@@ -65,15 +81,24 @@ static struct CONF_UART conf = { .portnums = 0, .mode = { 0 } };
 
 
 static int portGpios[MAX_SUPPORT_PORTS][2] = {
-	{ gpioNum(2, 7), gpioNum(2, 6)},
+	{ gpioNum(2, 6), gpioNum(2, 7)},
 	{ gpioNum(2, 10), gpioNum(2, 11)},
 };
 
+#ifdef _ENABLE_LOOPBACK
 static int portMode[MODE_MAX_SUPPORT+1][2] = {
-	{1, 0},
 	{0, 1},
-	{1, 1},
+	{1, 0},
+	{0, 0},
+	{1, 1}
 };
+#else
+static int portMode[MODE_MAX_SUPPORT+1][2] = {
+	{0, 1},
+	{1, 0},
+	{0, 0}
+};
+#endif
 
 static int isHelp(void) {
 	return (optflags == USAGE_HELP);
@@ -245,6 +270,9 @@ static void usage(void) {
 	fprintf(stderr, "\t-m, --mode=[value] -- uart mode, 0 for RS232\n");
 	fprintf(stderr, "\t                                 1 for RS485(half duplex)\n");
 	fprintf(stderr, "\t                                 2 for RS485(full duplex)/RS422\n");
+	#ifdef _ENABLE_LOOPBACK
+	fprintf(stderr, "\t                                 3 for loopback\n");
+	#endif
 	fprintf(stderr, "\t-h, --help         -- show this message\n");
 	fprintf(stderr, "\n");
 }
