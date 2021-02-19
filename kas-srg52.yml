@@ -128,14 +128,9 @@ local_conf_header:
     # for ppp
     IMAGE_PREINSTALL += "ppp"
     
-    # for SWUpdate
-    IMAGE_PREINSTALL += "lua5.2-dev libssl-dev libconfig-dev libarchive-dev \
-                         libzmq3-dev libz-dev libcurl4-gnutls-dev libjson-c-dev \
-                        " 
-    
   image_type: |
     IMAGE_TYPE = "wic-targz-img"
 
   os_image_version: |
-    IMG_VARIANT_VERSION = "1.3.2"
+    IMG_VARIANT_VERSION = "1.3.3"
 
