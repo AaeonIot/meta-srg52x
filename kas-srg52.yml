@@ -128,6 +128,9 @@ local_conf_header:
     # for ppp
     IMAGE_PREINSTALL += "ppp"
     
+    # for wifi-ap
+    IMAGE_PREINSTALL += "hostapd isc-dhcp-server"
+    
   image_type: |
     IMAGE_TYPE = "wic-targz-img"
 

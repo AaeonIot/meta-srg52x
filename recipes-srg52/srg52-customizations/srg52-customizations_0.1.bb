@@ -122,6 +122,9 @@ do_install() {
 	install -v -m 755 ${WORKDIR}/scripts/tools/test232.sh	${D}/opt/scripts/tools
 	install -v -m 755 ${WORKDIR}/scripts/tools/test485Half.sh	${D}/opt/scripts/tools
 	install -v -m 755 ${WORKDIR}/scripts/tools/test422485Full.sh	${D}/opt/scripts/tools
+	
+	# wifi-ap mode
+	install -v -m 755 ${WORKDIR}/scripts/tools/enable-WifiAP.sh	${D}/opt/scripts/tools
 }
 
 addtask do_install after do_transform_template
