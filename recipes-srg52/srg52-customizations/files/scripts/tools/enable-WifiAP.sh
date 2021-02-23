@@ -113,7 +113,7 @@ iptables --append FORWARD --in-interface wlan0 -j ACCEPT
 sysctl -w net.ipv4.ip_forward=1
 
 echo ">> start hostapd"
-service hostapd restart
+service hostapd start
 
 
 echo "\n\njob complete"
