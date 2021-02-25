@@ -46,8 +46,17 @@ else
 fi
 
 # workaround, due to install permission incorrect
-if [ -f /etc/NetworkManager/system-connections/Modem.nmconnection ]; then
-	chmod 600 /etc/NetworkManager/system-connections/Modem.nmconnection
+if [ -f /etc/NetworkManager/system-connections/Modem0.nmconnection ]; then
+	chmod 600 /etc/NetworkManager/system-connections/Modem0.nmconnection
+fi
+if [ -f /etc/NetworkManager/system-connections/Modem1.nmconnection ]; then
+	chmod 600 /etc/NetworkManager/system-connections/Modem1.nmconnection
+fi
+if [ -f /etc/NetworkManager/system-connections/Modem2.nmconnection ]; then
+	chmod 600 /etc/NetworkManager/system-connections/Modem2.nmconnection
+fi
+if [ -f /etc/NetworkManager/system-connections/Modem3.nmconnection ]; then
+	chmod 600 /etc/NetworkManager/system-connections/Modem3.nmconnection
 fi
 
 if [ -f /etc/NetworkManager/system-connections/Eth0.nmconnection ]; then
