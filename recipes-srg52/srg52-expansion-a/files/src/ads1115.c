@@ -167,12 +167,12 @@ float readVoltageDiff(int diffset)
 // return current in mA
 float readCurrent(int channel)
 {
-	return (readVoltage(channel)*20.0f);
+	return (readVoltage(channel)*4.0f);
 }
 
 // return current in mA
 float readCurrentDiff(int diffset)
 {
-	return (readVoltageDiff(diffset)*20.0f);
+	return (readVoltageDiff(diffset)*4.0f);
 }
 
