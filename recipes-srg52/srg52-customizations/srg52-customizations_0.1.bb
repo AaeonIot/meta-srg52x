@@ -24,7 +24,10 @@ SRC_URI = " \
 	file://scripts/			\
 	file://scripts/tools		\
 	file://automount/		\
-	file://Modem.nmconnection	\
+	file://Modem0.nmconnection	\
+	file://Modem1.nmconnection	\
+	file://Modem2.nmconnection	\
+	file://Modem3.nmconnection	\
 	file://Eth0.nmconnection	\
 	file://Eth1.nmconnection	\
 	file://udev/rules.d		\
@@ -78,7 +81,10 @@ do_install() {
 
 	# install NetworkManager connection settings file
 	install -v -d ${D}/etc/NetworkManager/system-connections/
-	install -v -m 600 ${WORKDIR}/Modem.nmconnection	${D}/etc/NetworkManager/system-connections/Modem.nmconnection
+	install -v -m 600 ${WORKDIR}/Modem.nmconnection	${D}/etc/NetworkManager/system-connections/Modem0.nmconnection
+	install -v -m 600 ${WORKDIR}/Modem.nmconnection	${D}/etc/NetworkManager/system-connections/Modem1.nmconnection
+	install -v -m 600 ${WORKDIR}/Modem.nmconnection	${D}/etc/NetworkManager/system-connections/Modem2.nmconnection
+	install -v -m 600 ${WORKDIR}/Modem.nmconnection	${D}/etc/NetworkManager/system-connections/Modem3.nmconnection
 	install -v -m 600 ${WORKDIR}/Eth0.nmconnection	${D}/etc/NetworkManager/system-connections/Eth0.nmconnection
 	install -v -m 600 ${WORKDIR}/Eth1.nmconnection	${D}/etc/NetworkManager/system-connections/Eth1.nmconnection
 
