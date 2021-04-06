@@ -1,0 +1,16 @@
+# Quectel EG25-G on board mPCIE
+# SUBSYSTEM=="tty", ATTRS{idVendor}=="2c7c", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.1:1.0", SYMLINK+="ttyModem0"
+# SUBSYSTEM=="tty", ATTRS{idVendor}=="2c7c", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.1:1.1", SYMLINK+="ttyModem1"
+# SUBSYSTEM=="tty", ATTRS{idVendor}=="2c7c", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.1:1.2", SYMLINK+="ttyModem2"
+# SUBSYSTEM=="tty", ATTRS{idVendor}=="2c7c", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.1:1.3", SYMLINK+="ttyModem3"
+
+# 8 ports RS485 extension board for SRG-3352
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.4:1.0", SYMLINK+="ttyExtUSB0"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.4:1.1", SYMLINK+="ttyExtUSB1"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.4:1.2", SYMLINK+="ttyExtUSB2"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.4:1.3", SYMLINK+="ttyExtUSB3"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.3:1.0", SYMLINK+="ttyExtUSB4"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.3:1.1", SYMLINK+="ttyExtUSB5"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.3:1.2", SYMLINK+="ttyExtUSB6"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ENV{ID_PATH}=="platform-musb-hdrc.1-usb-0:1.3:1.3", SYMLINK+="ttyExtUSB7"
+

@@ -36,6 +36,7 @@ SRC_URI = " \
 	file://services			\
 	file://srg52-init.service	\
 	file://generic-startup.sh	\
+	file://scripts/test/		\
 	"
 
 DEPENDS += "sshd-regen-keys u-boot-script"
@@ -110,6 +111,7 @@ do_install() {
 	install -m 644 ${WORKDIR}/udev/rules.d/80-gpio-noroot.rules ${D}/etc/udev/rules.d/
 	install -m 644 ${WORKDIR}/udev/rules.d/80-i2c-noroot.rules ${D}/etc/udev/rules.d/
 	install -m 644 ${WORKDIR}/udev/rules.d/88-leds-noroot.rules ${D}/etc/udev/rules.d/
+	install -m 644 ${WORKDIR}/udev/rules.d/98-com.rules ${D}/etc/udev/rules.d/
 
 	# uartmode
 	install -v -d ${D}/etc/srg52/conf.d/
@@ -124,13 +126,18 @@ do_install() {
 	# ppp script generator for BG96
 	install -v -m 755 ${WORKDIR}/scripts/tools/ppp-creator.sh	${D}/opt/scripts/tools
 	
-	# uartmode test
-	install -v -m 755 ${WORKDIR}/scripts/tools/test232.sh	${D}/opt/scripts/tools
-	install -v -m 755 ${WORKDIR}/scripts/tools/test485Half.sh	${D}/opt/scripts/tools
-	install -v -m 755 ${WORKDIR}/scripts/tools/test422485Full.sh	${D}/opt/scripts/tools
-	
 	# wifi-ap mode
 	install -v -m 755 ${WORKDIR}/scripts/tools/enable-WifiAP.sh	${D}/opt/scripts/tools
+	
+	mkdir ${D}/opt/scripts/test
+	# uartmode test
+	install -v -m 755 ${WORKDIR}/scripts/test/test232.sh	        ${D}/opt/scripts/test/
+	install -v -m 755 ${WORKDIR}/scripts/test/test485Half.sh	${D}/opt/scripts/test/
+	install -v -m 755 ${WORKDIR}/scripts/test/test422485Full.sh	${D}/opt/scripts/test/
+	
+	# 8 port rs485 test
+	install -v -m 755 ${WORKDIR}/scripts/test/modpoll	${D}/opt/scripts/test/
+	install -v -m 755 ${WORKDIR}/scripts/test/diagslave	${D}/opt/scripts/test/
 }
 
 addtask do_install after do_transform_template
