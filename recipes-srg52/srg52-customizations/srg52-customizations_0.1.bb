@@ -138,6 +138,10 @@ do_install() {
 	# 8 port rs485 test
 	install -v -m 755 ${WORKDIR}/scripts/test/modpoll	${D}/opt/scripts/test/
 	install -v -m 755 ${WORKDIR}/scripts/test/diagslave	${D}/opt/scripts/test/
+
+	# led default on
+	install -m 755 ${WORKDIR}/services/initledgreen.sh	${D}/etc/srg52/
+	install -m 644 ${WORKDIR}/services/initled.service	${D}/lib/systemd/system/
 }
 
 addtask do_install after do_transform_template

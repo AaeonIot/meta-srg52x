@@ -1,0 +1,11 @@
+[Unit]
+Description=SRG-3352x led services
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/etc/srg52/initledgreen.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
