@@ -21,15 +21,16 @@ KBUILD_DEPENDS += "lzop:native"
 
 SRCBRANCH = "srg52_dev"
 
-SRCREV = "81f500c22eba467b8edcf2443ebf0cccd6bcdb66"
-KERNEL_REV = "81f500c22eba467b8edcf2443ebf0cccd6bcdb66"
+SRCREV = "bb8f27c96f4edd2a5744fdf1a08159190fe73d07"
+KERNEL_REV = "bb8f27c96f4edd2a5744fdf1a08159190fe73d07"
 KERNEL_DEFCONFIG = "srg52_defconfig"
 
-SRC_URI += "https://github.com/AaeonIot/am335x-kernel/archive/v1.1.tar.gz"
-# SRC_URI += "file://v1.1.tar.gz"
+SRC_URI += "https://github.com/AaeonIot/am335x-kernel/archive/v1.1.2.tar.gz"
+# SRC_URI += "file://1.1.2.tar.gz"
 SRC_URI += "file://srg52_defconfig"
 
-SRC_URI[md5sum] = "83618cbc1567cbae3dedb8391fc908fe"
-SRC_URI[sha256sum] = "75e2e322fe8b3abb617f4daf72fbf3b8a4b0f407c65c83f4cb28fe62a8ed25b5"
+SRC_URI[md5sum] = "d1c99d2ab11fa2e9f58e9849e507daa7"
+SRC_URI[sha256sum] = "9f64ad31bb3e856b072b5c7923a44a1527f875b8013b11db4c81e7af0c9735e3"
 
-S = "${WORKDIR}/am335x-kernel-1.1"
+
+S = "${WORKDIR}/am335x-kernel-1.1.2"
