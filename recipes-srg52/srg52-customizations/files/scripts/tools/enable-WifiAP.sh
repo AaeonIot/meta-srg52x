@@ -1,124 +1,102 @@
 #!/bin/sh
 
-echo ">> sudo ./enable-WiFiAP.sh <output-network-interface> <ssid> <password>"
+echo ">> ./enable-WiFiAP.sh <ssid> <password> <interface>"
 echo ">> password needs 8 characters as least"
 echo ">> use default config if no arguments supplied"
+echo ">> Default ssid and password: hostname-random number and 12345678"
 echo "\n"
 
-OUTINTERFACE=$1
-SSID=$2
-PASSWORD=$3
+SSID=$1
+PASSWORD=$2
+IFACE=$3
 
-if [ -z "$1" ]; then
-    echo ">> No arguments supplied, set default, eth0, SRG-3352C, 1234567890"
-    OUTINTERFACE=eth0
-    SSID=SRG-3352C
-    PASSWORD=1234567890
-else
-    if [ `echo $1 | grep -c eth` -ne 1 ]; then
-       if [ `echo $1 | grep -c ppp` -ne 1 ]; then
-          echo ">> no output network interface, set default eth0"
-          OUTINTERFACE=eth0
-       fi
-    fi
-fi
-
-if [ -z "$SSID" ]; then
-    echo ">> No SSID and password, set default SRG-3352C and 1234567890"
-    SSID=SRG-3352C
-    PASSWORD=1234567890
+if [ -z "$ssid" ]; then
+    echo ">> No SSID and password, set default ssid and password"
+    SSID=$(hostname)-$(head -200 /dev/urandom | cksum | cut -f1 -d " ")
+    PASSWORD=12345678
+    echo ">> SSID = $SSID"
+    echo ">> PASSWORD = $PASSWORD"
 fi
 
 if [ -z "$PASSWORD" ]; then
-    echo ">> No password, set default 1234567890"
-    PASSWORD=1234567890
+    echo ">> No password, set default password"
+    PASSWORD=12345678
+    echo ">> PASSWORD = $PASSWORD"
 fi
 
-#echo "install necessary package"
-#apt-get update
-#apt-get install -y isc-dhcp-server
-#apt-get install -y hostapd 
-
-if [ ! -f "/etc/hostapd/hostapd.conf.bak" ]; then
-echo ">> backup original config file"
-mv /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.bak
+if [ -z "$IFACE" ]; then
+  if [ "`ifconfig | grep -c wlan0`" = 1 ]; then
+    IFACE=wlan0
+  elif [ "`ifconfig | grep -c wlx000e8e991114`" = 1 ]; then
+    IFACE=wlx000e8e991114
+  else
+    echo ">> No interface, exit"
+    exit 0
+  fi
 fi
 
-echo ">> creating hostapd config file : /etc/hostapd/hostapd.conf"
-echo "
-interface=wlan0
+echo ">> IFACE = $IFACE"
 
-# SSID to be used in IEEE 802.11 management frames
-ssid=$SSID
-# Driver interface type (hostap/wired/none/nl80211/bsd)
-driver=nl80211
-# Country code (ISO/IEC 3166-1)
-country_code=TW
+# delete original WIFI_AP profile
+if [ "`nmcli con show | grep -c WIFI_AP`" = 1 ]; then
+    echo ">> stop and delete original profile"
+    sudo nmcli connection down WIFI_AP
+    sudo nmcli c del WIFI_AP
+fi
 
-# Operation mode (a = IEEE 802.11a (5 GHz), b = IEEE 802.11b (2.4 GHz)
-hw_mode=g
-# Channel number
-channel=1
-# Maximum number of stations allowed
-max_num_sta=5
+# disable standalone dnsmasq service
+sudo systemctl disable dnsmasq
+sudo systemctl stop dnsmasq
 
-# Bit field: bit0 = WPA, bit1 = WPA2
-wpa=3
-# Bit field: 1=wpa, 2=wep, 3=both
-auth_algs=1
+# for NetworkManager to run dnsmasq as a local caching DNS server
+if [ 	! -f /etc/NetworkManager/NetworkManager.conf.bak ]; then
+    echo ">> backup /etc/NetworkManager/NetworkManager.conf"
+    sudo cp /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak
+fi
+if [ "`cat /etc/NetworkManager/NetworkManager.conf | grep -c [main]`" = 1 ]; then
+ if [ "`cat /etc/NetworkManager/NetworkManager.conf | grep -c dns=dnsmasq`" = 1 ]; then
+    echo ">> run dnsmasq as a local caching DNS server"
+    cp /etc/NetworkManager/NetworkManager.conf .
+    sudo echo "" >> NetworkManager.conf
+    sudo echo "[main]" >> NetworkManager.conf
+    sudo echo "dns=dnsmasq" >> NetworkManager.conf
+    sudo cp NetworkManager.conf /etc/NetworkManager/
+    rm NetworkManager.conf
+ fi
+fi
 
-# Set of accepted cipher suites; disabling insecure TKIP
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP
-# Set of accepted key management algorithms
-wpa_key_mgmt=WPA-PSK
-wpa_passphrase=$PASSWORD
+# create WiFi AP
+sudo nmcli c add type wifi ifname wlan0 con-name WIFI_AP autoconnect yes ssid $SSID
+sudo nmcli connection modify WIFI_AP 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
+sudo nmcli connection modify WIFI_AP wifi-sec.key-mgmt wpa-psk
+sudo nmcli connection modify WIFI_AP wifi-sec.psk "$PASSWORD"
+sudo nmcli connection up WIFI_AP
 
-# hostapd event logger configuration
-logger_stdout=-1
-logger_stdout_level=2" > /etc/hostapd/hostapd.conf
+# $? return last command successful or not.
+# 1 is failure and 0 is successful.
+if [ $? = 1 ]; then
+	echo "\n\n>> connection up fail"
+else
+	echo "\n\n>> connection up success"
+fi
 
+# configuring DHCP subnet
+sudo nmcli connection modify WIFI_AP ipv4.addr 192.168.5.1/24
 
-echo ">> creating dhcpd config file : /etc/dhcp/dhcpd.conf"
-echo "
-default-lease-time 1209600;
-max-lease-time 1814400;
-ddns-update-style none;
-ignore client-updates;
-authoritative;
-option local-wpad code 252 = text;
- 
-subnet 10.0.0.0 netmask 255.255.255.0 {
-   option routers 10.0.0.1;
-   option subnet-mask 255.255.255.0;
-   option broadcast-address 10.0.0.255;
-   option domain-name-servers 10.0.0.1, 8.8.8.8, 8.8.4.4;
-   option time-offset 0;
-   range 10.0.0.3 10.0.0.13;
-}" > /etc/dhcp/dhcpd.conf
+# restart NetworkManager
+sudo systemctl restart NetworkManager
 
-echo ">> config wifi ip and up"
-ifconfig wlan0 up 10.0.0.1 netmask 255.255.255.0
+# show connection
+nmcli con show
 
-echo ">> config dhcpd"
-dhcpd wlan0
-
-echo ">> enable network forward"
-iptables --flush
-iptables --table nat --flush
-iptables --delete-chain
-iptables --table nat --delete-chain
-iptables --table nat --append POSTROUTING --out-interface $OUTINTERFACE -j MASQUERADE
-iptables --append FORWARD --in-interface wlan0 -j ACCEPT
-sysctl -w net.ipv4.ip_forward=1
-
-echo ">> start hostapd"
-service hostapd start
+if [ "`nmcli con show | grep -c WIFI_AP`" = 1 ]; then
+	echo "\n\n>> WiFi AP enable enabled"
+	echo ">> SSID = $SSID"
+	echo ">> PASSWORD = $PASSWORD"
+	echo "\n\n"
+else
+	echo "\n\n>> WiFi AP enable fail"
+fi
 
 
-echo "\n\njob complete"
-echo "output INTERFACE = $OUTINTERFACE"
-echo "SSID = $SSID"
-echo "PASSWORD = $PASSWORD"
-echo "\n\n"
 

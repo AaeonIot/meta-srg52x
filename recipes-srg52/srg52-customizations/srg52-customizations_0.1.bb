@@ -128,6 +128,7 @@ do_install() {
 	
 	# wifi-ap mode
 	install -v -m 755 ${WORKDIR}/scripts/tools/enable-WifiAP.sh	${D}/opt/scripts/tools
+	install -v -m 755 ${WORKDIR}/scripts/tools/disable-WifiAP.sh	${D}/opt/scripts/tools
 	
 	mkdir ${D}/opt/scripts/test
 	# uartmode test

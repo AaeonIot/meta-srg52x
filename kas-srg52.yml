@@ -122,18 +122,15 @@ local_conf_header:
                           libisc1100 libisccc161 libisccfg163   \
                           liblmdb0 liblwres161 libprotobuf-c1   \
                         "
-    # for wireless tools"
+    # for wireless tools
     IMAGE_PREINSTALL += "libiw30 wireless-tools iw crda iptables libip6tc0 libiptc0"
 
     # for ppp
     IMAGE_PREINSTALL += "ppp"
     
-    # for wifi-ap
-    IMAGE_PREINSTALL += "hostapd isc-dhcp-server"
-    
   image_type: |
     IMAGE_TYPE = "wic-targz-img"
 
   os_image_version: |
-    IMG_VARIANT_VERSION = "1.4.8"
+    IMG_VARIANT_VERSION = "1.4.9"
 
