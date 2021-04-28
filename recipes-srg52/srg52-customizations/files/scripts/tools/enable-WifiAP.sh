@@ -72,14 +72,6 @@ sudo nmcli connection modify WIFI_AP wifi-sec.key-mgmt wpa-psk
 sudo nmcli connection modify WIFI_AP wifi-sec.psk "$PASSWORD"
 sudo nmcli connection up WIFI_AP
 
-# $? return last command successful or not.
-# 1 is failure and 0 is successful.
-if [ $? = 1 ]; then
-	echo "\n\n>> connection up fail"
-else
-	echo "\n\n>> connection up success"
-fi
-
 # configuring DHCP subnet
 sudo nmcli connection modify WIFI_AP ipv4.addr 192.168.5.1/24
 
@@ -87,15 +79,31 @@ sudo nmcli connection modify WIFI_AP ipv4.addr 192.168.5.1/24
 sudo systemctl restart NetworkManager
 
 # show connection
+echo ""
 nmcli con show
 
+# wait a moment
+echo "."
+sleep 1
+echo "."
+sleep 1
+echo "."
+sleep 1
+
+# show interface
+ifconfig -a $IFACE
+
 if [ "`nmcli con show | grep -c WIFI_AP`" = 1 ]; then
-	echo "\n\n>> WiFi AP enable enabled"
-	echo ">> SSID = $SSID"
-	echo ">> PASSWORD = $PASSWORD"
-	echo "\n\n"
+  if [ "`ifconfig -a $IFACE | grep -c "192.168.5.1"`" = 1 ]; then
+    echo "\n\n>> WiFi AP enable success"
+    echo ">> SSID = $SSID"
+    echo ">> PASSWORD = $PASSWORD"
+    echo "\n\n"
+  else
+    echo "\n\n>> WiFi AP enable error"
+  fi
 else
-	echo "\n\n>> WiFi AP enable fail"
+    echo "\n\n>> WiFi AP enable fail"
 fi
 
 
