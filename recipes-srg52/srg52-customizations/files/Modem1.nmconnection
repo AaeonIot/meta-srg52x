@@ -1,5 +1,5 @@
 [connection]
-id=Modem
+id=Modem1
 uuid=fbf201bf-5110-41ae-a7f6-88261a1edca7
 type=gsm
 interface-name=cdc-wdm1
