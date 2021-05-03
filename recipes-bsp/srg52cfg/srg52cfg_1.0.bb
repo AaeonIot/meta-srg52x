@@ -21,3 +21,4 @@ do_prepare_build() {
     deb_debianize
     sed -i -e 's/Section: misc/Section: utils/g' ${S}/debian/control
 }
+
