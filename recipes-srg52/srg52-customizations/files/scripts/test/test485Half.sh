@@ -4,13 +4,8 @@ sudo uartmode -p 1 -m 1
 stty -F /dev/ttyMU0 115200 raw            #CONFIGURE SERIAL PORT
 stty -F /dev/ttyMU1 115200 raw            #CONFIGURE SERIAL PORT
 
-if [ -f ttyDumpMU0.dat ]; then
-    rm ttyDumpMU0.dat
-fi
-if [ -f ttyDumpMU1.dat ]; then
-    rm ttyDumpMU1.dat
-fi
-
+rm ttyDumpMU0.dat
+rm ttyDumpMU1.dat
 
 exec 3</dev/ttyMU1                        #REDIRECT SERIAL OUTPUT TO FD 3
     cat <&3 > ttyDumpMU1.dat &            #REDIRECT SERIAL OUTPUT TO FILE
@@ -53,14 +48,4 @@ if [ `cat ttyDumpMU1.dat | grep -c send-to-MU0` -eq 1 ]; then
 else
     echo "RS485 half deplux test fail!"
 fi
-
-
-# remove test dump file
-if [ -f ttyDumpMU0.dat ]; then
-    rm ttyDumpMU0.dat
-fi
-if [ -f ttyDumpMU1.dat ]; then
-    rm ttyDumpMU1.dat
-fi
-
 

@@ -37,6 +37,7 @@ SRC_URI = " \
 	file://srg52-init.service	\
 	file://generic-startup.sh	\
 	file://scripts/test/		\
+	file://modbus/			\
 	"
 
 DEPENDS += "sshd-regen-keys u-boot-script"
@@ -130,15 +131,15 @@ do_install() {
 	install -v -m 755 ${WORKDIR}/scripts/tools/enable-WifiAP.sh	${D}/opt/scripts/tools
 	install -v -m 755 ${WORKDIR}/scripts/tools/disable-WifiAP.sh	${D}/opt/scripts/tools
 	
-	mkdir ${D}/opt/scripts/test
-	# uartmode test
-	install -v -m 755 ${WORKDIR}/scripts/test/test232.sh	        ${D}/opt/scripts/test/
-	install -v -m 755 ${WORKDIR}/scripts/test/test485Half.sh	${D}/opt/scripts/test/
-	install -v -m 755 ${WORKDIR}/scripts/test/test422485Full.sh	${D}/opt/scripts/test/
+	## uartmode test
+	#mkdir ${D}/opt/scripts/test
+	#install -v -m 755 ${WORKDIR}/scripts/test/test232.sh	        ${D}/opt/scripts/test/
+	#install -v -m 755 ${WORKDIR}/scripts/test/test485Half.sh	${D}/opt/scripts/test/
+	#install -v -m 755 ${WORKDIR}/scripts/test/test422485Full.sh	${D}/opt/scripts/test/
 	
-	# 8 port rs485 test
-	install -v -m 755 ${WORKDIR}/scripts/test/modpoll	${D}/opt/scripts/test/
-	install -v -m 755 ${WORKDIR}/scripts/test/diagslave	${D}/opt/scripts/test/
+	# modbus tool
+	install -v -m 755 ${WORKDIR}/modbus/modpoll	${D}/usr/sbin
+	install -v -m 755 ${WORKDIR}/modbus/diagslave	${D}/usr/sbin
 
 	# led default on
 	install -m 755 ${WORKDIR}/services/initledgreen.sh	${D}/etc/srg52/
