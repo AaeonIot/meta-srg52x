@@ -131,12 +131,6 @@ do_install() {
 	install -v -m 755 ${WORKDIR}/scripts/tools/enable-WifiAP.sh	${D}/opt/scripts/tools
 	install -v -m 755 ${WORKDIR}/scripts/tools/disable-WifiAP.sh	${D}/opt/scripts/tools
 	
-	## uartmode test
-	#mkdir ${D}/opt/scripts/test
-	#install -v -m 755 ${WORKDIR}/scripts/test/test232.sh	        ${D}/opt/scripts/test/
-	#install -v -m 755 ${WORKDIR}/scripts/test/test485Half.sh	${D}/opt/scripts/test/
-	#install -v -m 755 ${WORKDIR}/scripts/test/test422485Full.sh	${D}/opt/scripts/test/
-	
 	# modbus tool
 	install -v -m 755 ${WORKDIR}/modbus/modpoll	${D}/usr/sbin
 	install -v -m 755 ${WORKDIR}/modbus/diagslave	${D}/usr/sbin
