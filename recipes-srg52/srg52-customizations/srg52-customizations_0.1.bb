@@ -36,7 +36,6 @@ SRC_URI = " \
 	file://services			\
 	file://srg52-init.service	\
 	file://generic-startup.sh	\
-	file://scripts/test/		\
 	file://modbus/			\
 	"
 
