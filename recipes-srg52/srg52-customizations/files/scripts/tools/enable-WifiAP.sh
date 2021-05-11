@@ -10,7 +10,7 @@ SSID=$1
 PASSWORD=$2
 IFACE=$3
 
-if [ -z "$ssid" ]; then
+if [ -z "$SSID" ]; then
     echo ">> No SSID and password, set default ssid and password"
     SSID=$(hostname)-$(head -200 /dev/urandom | cksum | cut -f1 -d " ")
     PASSWORD=12345678
