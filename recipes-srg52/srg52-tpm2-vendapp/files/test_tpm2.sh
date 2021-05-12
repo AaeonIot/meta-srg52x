@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo -e "get tpm firmware revsion"
-./aSkCmd -getversion2
+/root/aSkCmd -getversion2
 
 echo -e ""
 echo -e "tpm2 selftest"
-./aSkCmd -selftest2
+/root/aSkCmd -selftest2
